@@ -1,0 +1,104 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "status",
+      "value": "Status"
+    },
+    {
+      "name": "control",
+      "value": "Control Pane"
+    },
+    {
+      "name": "connection",
+      "value": "Connection Status: "
+    },
+    {
+      "name": "connection_alive",
+      "value": "Alive"
+    },
+    {
+      "name": "control_connect",
+      "value": "Connect"
+    },
+    {
+      "name": "control_move_forward",
+      "value": "▲"
+    },
+    {
+      "name": "control_move_left",
+      "value": "◀"
+    },
+    {
+      "name": "control_move_right",
+      "value": "▶"
+    },
+    {
+      "name": "control_move_backward",
+      "value": "▼"
+    },
+    {
+      "name": "connection_status",
+      "value": "Connection"
+    },
+    {
+      "name": "connection_connect",
+      "value": "Connect"
+    },
+    {
+      "name": "connection_connected",
+      "value": "Connected"
+    },
+    {
+      "name": "device_alive",
+      "value": "Alive"
+    },
+    {
+      "name": "connection_disconnected",
+      "value": "Disconnected"
+    },
+    {
+      "name": "device_inalive",
+      "value": "Inalive"
+    },
+    {
+      "name": "connection_disconnect",
+      "value": "Disconnect"
+    },
+    {
+      "name": "device_stop",
+      "value": "Stop"
+    },
+    {
+      "name": "device_start",
+      "value": "Start"
+    },
+    {
+      "name": "device_status",
+      "value": "Device"
+    },
+    {
+      "name": "device_control_pane",
+      "value": "DeviceControlPane"
+    },
+    {
+      "name": "connection_requirement",
+      "value": "Please connect and start the device before controling it!"
+    },
+    {
+      "name": "disconnect_warning",
+      "value": "Please stop the device before disconnection"
+    }
+  ]
+}
