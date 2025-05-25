@@ -1,6 +1,9 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import { IOTCredit } from '../service/Credit'
+import { HttpTool } from '../service/HttpTool';
+import { http } from '@kit.NetworkKit';
 
 const DOMAIN = 0x0000;
 
@@ -11,6 +14,11 @@ export default class EntryAbility extends UIAbility {
 
         AppStorage.setOrCreate('isConnected', false);
         AppStorage.setOrCreate('isAlive',     false);
+
+        HttpTool.post(IOTCredit.url, IOTCredit.hw_user, (data: http.HttpResponse) => {
+            console.log('IOT init result:', JSON.stringify(data.result))
+            globalThis.token = data.header['x-subject-token']
+        })
     }
 
     onDestroy(): void {

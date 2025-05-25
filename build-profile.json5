@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\SIT\\.ohos\\config\\default_DistScheduler_Bm3RqDWLKs0XvgWE8FImvjNq3lP0U_ostaFNkmUFBmI=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B7E12B7CC1C98BAF989E5BB24DD600C752A4FDBE2D0A2397249C71CDB83FCFB8E25EACCC78964CE",
+          "profile": "C:\\Users\\SIT\\.ohos\\config\\default_DistScheduler_Bm3RqDWLKs0XvgWE8FImvjNq3lP0U_ostaFNkmUFBmI=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\SIT\\.ohos\\config\\default_DistScheduler_Bm3RqDWLKs0XvgWE8FImvjNq3lP0U_ostaFNkmUFBmI=.p12",
+          "storePassword": "0000001BE9100D09999C3D1B22B0CBC5B2DEC397A4CEE72364D338A5318819C9FF3E56A5015B21094FDC97"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",

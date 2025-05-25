@@ -1,7 +1,13 @@
+import { IOTCredit, IOTStatus } from "../service/Credit"
+import { Properties } from "../service/IotCommand"
+import { http } from "@kit.NetworkKit"
+import { HttpTool } from "../service/HttpTool"
+
 @Component
 export struct StatusPanel {
-    @State isConnected: boolean = false
-    @State isAlive:     boolean = false
+    @State isConnected: boolean   = false
+    @State isAlive:     boolean   = false
+    @State status:      IOTStatus = new IOTStatus()
 
     // 获取状态颜色
     getStatusColor(status: boolean): ResourceColor {
@@ -63,6 +69,22 @@ export struct StatusPanel {
             }
             .width('100%')
 
+            Row({ space: 10 }) {
+                Text($r('app.string.device_name'))
+                    .width(100)
+                    .fontSize(18)
+                    .fontWeight(FontWeight.Bold)
+                    .fontColor('#333333')
+                    .textAlign(TextAlign.End)
+
+                Text(this.status.properties.DeviceName)
+                    .width(140)
+                    .fontSize(18)
+                    .fontColor('#555555')
+                    .textAlign(TextAlign.Start)
+            }
+            .width('100%')
+
             // 按钮区域
             Row({ space: 30 }) {
                 Button(this.isConnected ? $r('app.string.connection_disconnect') : $r('app.string.connection_connect'))
@@ -89,6 +111,12 @@ export struct StatusPanel {
                         if (!this.isConnected) {
                             this.isAlive = false;
                             AppStorage.set('isAlive', false);
+                        } else {
+                            HttpTool.get(IOTCredit.url1, (data: http.HttpResponse) => {
+                                console.log('result:', JSON.stringify(data.result)) //打印获取的结果到终端上
+                                this.status.properties = data.result['shadow'][0].reported.properties as Properties
+                                console.log('Device Name:' + this.status.properties.DeviceName) //将获取到的LedStatus打印到终端上
+                            })
                         }
                     })
 
@@ -102,7 +130,7 @@ export struct StatusPanel {
                     .enabled(this.isConnected) // 未连接时禁用按钮
                     .onClick(() => {
                         if (!this.isConnected) {
-                            AlertDialog.show({ message: '请先连接设备以启用设备启动功能' });
+                            AlertDialog.show({ message: $r('app.string.disconnect_warning') });
                             return;
                         }
 

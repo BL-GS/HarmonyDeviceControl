@@ -1,5 +1,3 @@
-// 文件名：DirectionPad.ets
-
 @Component
 export struct DirectionPad {
     build() {

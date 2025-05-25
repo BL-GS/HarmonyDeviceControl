@@ -99,6 +99,14 @@
     {
       "name": "disconnect_warning",
       "value": "Please stop the device before disconnection"
+    },
+    {
+      "name": "device_name",
+      "value": "Device Name"
+    },
+    {
+      "name": "unknown",
+      "value": "Unknown"
     }
   ]
 }
