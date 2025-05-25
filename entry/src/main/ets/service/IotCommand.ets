@@ -1,13 +1,22 @@
+export interface EmptyParas {}
+
 export interface Command {
-    service_id: string
+    service_id:   string
     command_name: string
-    paras: Paras
+    paras:        EmptyParas
 }
 
-export interface Paras {
-    value: string
+export interface MoveParas {
+    step: number
+}
+
+export interface MoveCommand {
+    service_id:   string
+    command_name: string
+    paras:        MoveParas
 }
 
 export interface Properties {
     DeviceName: string
+    DeviceOn: boolean
 }
