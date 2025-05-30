@@ -1,3 +1,8 @@
+import { IOTCredit } from "../service/Credit";
+import { HttpTool } from "../service/HttpTool";
+import { http } from "@kit.NetworkKit";
+import { hilog } from "@kit.PerformanceAnalysisKit";
+
 @Component
 export struct DirectionPad {
     build() {
@@ -5,59 +10,77 @@ export struct DirectionPad {
             // 上按钮
             Button('↑')
                 .onClick(() => {
-                    console.info('上方向被点击');
-                    this.handleDirection('up');
+                    hilog.info(0, 'DirectionPad', 'Click Button: Forward');
+
+                    HttpTool.post(IOTCredit.url, IOTCredit.command_move_forward, (data: http.HttpResponse) => {
+                        hilog.info(0, 'Command Forward:', JSON.stringify(data.result))
+                    })
                 })
                 .width(80)
                 .height(40)
+                .foregroundColor('#2196F3')
+                .fontColor('#FFFFFF')
 
             // 中间行（左、中、右）
             Row({ space: 10 }) {
                 Button('←')
                     .onClick(() => {
-                        console.info('左方向被点击');
-                        this.handleDirection('left');
+                        hilog.info(0, 'DirectionPad', 'Click Button: Left');
+
+                        HttpTool.post(IOTCredit.url, IOTCredit.command_move_left, (data: http.HttpResponse) => {
+                            hilog.info(0, 'Command Forward:', JSON.stringify(data.result))
+                        })
                     })
                     .width(80)
                     .height(40)
+                    .foregroundColor('#2196F3')
+                    .fontColor('#FFFFFF')
 
                 // 可选中间按钮
                 Text('◆')
                     .fontSize(16)
                     .onClick(() => {
-                        console.info('中间按钮被点击');
+                        hilog.info(0, 'DirectionPad', 'Click Button: Middle');
                     })
                     .width(80)
                     .height(40)
                     .textAlign(TextAlign.Center)
+                    .fontColor('#000000')
 
                 Button('→')
                     .onClick(() => {
-                        console.info('右方向被点击');
-                        this.handleDirection('right');
+                        hilog.info(0, 'DirectionPad', 'Click Button: Right');
+
+                        HttpTool.post(IOTCredit.url, IOTCredit.command_move_right, (data: http.HttpResponse) => {
+                            hilog.info(0, 'Command Forward:', JSON.stringify(data.result))
+                        })
                     })
                     .width(80)
                     .height(40)
+                    .foregroundColor('#2196F3')
+                    .fontColor('#FFFFFF')
+
             }
 
             // 下按钮
             Button('↓')
                 .onClick(() => {
-                    console.info('下方向被点击');
-                    this.handleDirection('down');
+                    hilog.info(0, 'DirectionPad', 'Click Button: Backward');
+
+                    HttpTool.post(IOTCredit.url, IOTCredit.command_move_backward, (data: http.HttpResponse) => {
+                        hilog.info(0, 'Command Forward:', JSON.stringify(data.result))
+                    })
                 })
                 .width(80)
                 .height(40)
+                .foregroundColor('#2196F3')
+                .fontColor('#FFFFFF')
         }
         .width('90%')
         .padding({ top: 20, bottom: 20 })
         .alignItems(HorizontalAlign.Center)
+        .backgroundColor('#F9F9F9')
     }
 
-    // 处理方向逻辑
-    handleDirection(direction: string): void {
-        // 这里可以添加你的业务逻辑
-        console.info(`你点击了方向键：${direction}`);
-    }
 }
 

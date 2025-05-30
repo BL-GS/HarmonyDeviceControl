@@ -1,7 +1,4 @@
-import { IOTCredit, IOTStatus } from "../service/Credit"
-import { Properties } from "../service/IotCommand"
-import { http } from "@kit.NetworkKit"
-import { HttpTool } from "../service/HttpTool"
+import { IOTStatus } from "../service/Credit"
 import { hilog } from "@kit.PerformanceAnalysisKit"
 
 @Component
@@ -17,7 +14,6 @@ export struct StatusPanel {
 
     build() {
         Column({ space: 15 }) {
-            // 表头
             Text($r('app.string.device_control_pane'))
                 .fontSize(20)
                 .fontWeight(FontWeight.Bold)
@@ -26,7 +22,6 @@ export struct StatusPanel {
                 .padding({ bottom: 10 })
                 .borderColor('#CCCCCC')
 
-            // 状态行 - 连接状态
             Row({ space: 10 }) {
                 Text($r('app.string.connection_status'))
                     .width(100)
@@ -48,7 +43,6 @@ export struct StatusPanel {
             }
             .width('100%')
 
-            // 状态行 - 设备状态
             Row({ space: 10 }) {
                 Text($r('app.string.device_status'))
                     .width(100)
@@ -86,7 +80,6 @@ export struct StatusPanel {
             }
             .width('100%')
 
-            // 按钮区域
             Row({ space: 30 }) {
                 Button(this.isConnected ? $r('app.string.connection_disconnect') : $r('app.string.connection_connect'))
                     .width(120)
@@ -97,8 +90,7 @@ export struct StatusPanel {
                     .borderRadius(8)
                     .onClick(() => {
                         if (this.isConnected) {
-                            // 尝试断开连接：必须先停止设备
-                            if (this.status.properties.DeviceOn) {
+                            if (this.isAlive) {
                                 AlertDialog.show({ message: $r('app.string.disconnect_warning') });
                                 return;
                             }
@@ -106,15 +98,6 @@ export struct StatusPanel {
 
                         this.isConnected = !this.isConnected;
                         AppStorage.set('isConnected', this.isConnected);
-
-                        if (this.isConnected) {
-                            HttpTool.get(IOTCredit.url1, (data: http.HttpResponse) => {
-                                hilog.info(0, 'Get Device Properties result:', JSON.stringify(data.result))
-                                this.status.properties = data.result['shadow'][0].reported.properties as Properties
-                                hilog.info(0, "Device Properties", 'Device Name:' + this.status.properties.DeviceName)
-                                hilog.info(0, "Device Properties", 'Power:'       + this.status.properties.DeviceOn)
-                            })
-                        }
                     })
 
                 Button(this.isAlive ? $r('app.string.device_stop') : $r('app.string.device_start'))
@@ -131,32 +114,14 @@ export struct StatusPanel {
                             return;
                         }
 
-                        if (!this.status.properties.DeviceOn) {
-                            HttpTool.postCommands(IOTCredit.url2, IOTCredit.command_power_on, (data: http.HttpResponse) => {
-                                hilog.info(0, 'Command Device On:', JSON.stringify(data.result))
-                                let result = data.result["response"]["body"]["data"]['result'] as boolean
-                                if (result) {
-                                    hilog.info(0, 'Command Device On:', "Success")
-                                    this.status.properties.DeviceOn = true;
-                                    this.isAlive            = true
-                                    AppStorage.set('isAlive', true);
-                                } else {
-                                    hilog.info(0, 'Command Device On:', "Failed")
-                                }
-                            })
+                        if (!this.isAlive) {
+                            hilog.info(0, 'Command Device On:', "Success")
+                            this.isAlive            = true
+                            AppStorage.set('isAlive', true);
                         } else {
-                            HttpTool.postCommands(IOTCredit.url2, IOTCredit.command_power_off, (data: http.HttpResponse) => {
-                                hilog.info(0, 'Command Device Off:', JSON.stringify(data.result))
-                                let result = data.result['response']["body"]["data"]['result'] as boolean
-                                if (result) {
-                                    hilog.info(0, 'Command Device Off:', "Success")
-                                    this.status.properties.DeviceOn = false;
-                                    this.isAlive            = false
-                                    AppStorage.set('isAlive', false);
-                                } else {
-                                    hilog.info(0, 'Command Device Off:', "Failed")
-                                }
-                            })
+                            hilog.info(0, 'Command Device Off:', "Success")
+                            this.isAlive            = false
+                            AppStorage.set('isAlive', false);
                         }
                     })
             }

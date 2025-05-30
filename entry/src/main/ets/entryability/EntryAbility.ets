@@ -14,11 +14,6 @@ export default class EntryAbility extends UIAbility {
 
         AppStorage.setOrCreate('isConnected', false);
         AppStorage.setOrCreate('isAlive',     false);
-
-        HttpTool.post(IOTCredit.url, IOTCredit.hw_user, (data: http.HttpResponse) => {
-            console.log('IOT init result:', JSON.stringify(data.result))
-            globalThis.token = data.header['x-subject-token']
-        })
     }
 
     onDestroy(): void {

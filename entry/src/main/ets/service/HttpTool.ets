@@ -1,6 +1,7 @@
 import { http } from '@kit.NetworkKit'
 import { BusinessError } from '@kit.BasicServicesKit'
 import { hilog } from '@kit.PerformanceAnalysisKit'
+import { IOTCredit } from './Credit'
 
 export class HttpTool {
 
@@ -9,10 +10,7 @@ export class HttpTool {
         let options: http.HttpRequestOptions = {
             method: http.RequestMethod.GET,
             expectDataType: http.HttpDataType.OBJECT,
-            header: {
-                'Content-Type': 'application/json',
-                'X-Auth-Token': globalThis.token
-            },
+            header: { 'Content-Type': 'application/json', },
         }
 
         httpRequest.request(url, options, (err: BusinessError, data: http.HttpResponse) => {
@@ -40,33 +38,7 @@ export class HttpTool {
             header: { 'Content-Type': 'application/json', },
         }
 
-        httpRequest.request(url, options, (err: BusinessError, data: http.HttpResponse) => {
-            if (!err) {
-                fn(data)
-            } else {
-                hilog.error(0, 'HTTPTool', JSON.stringify(err))
-            }
-            httpRequest.destroy()
-        })
-    }
-
-    /**
-     * Post command with authentic token to huawei cloud platform
-     * @param url   URL to the platform
-     * @param param Request content
-     * @param fn    Callback function
-     */
-    static postCommands(url: string, param: string | Object | ArrayBuffer, fn: Function) {
-        let httpRequest = http.createHttp()
-        let options: http.HttpRequestOptions = {
-            method: http.RequestMethod.POST,
-            extraData: param,
-            expectDataType: http.HttpDataType.OBJECT,
-            header: {
-                'Content-Type': 'application/json',
-                'X-Auth-Token': globalThis.token
-            },
-        }
+        hilog.info(0, 'HTTPTool', 'send post request to ' + IOTCredit.url + ': ' + JSON.stringify(param))
 
         httpRequest.request(url, options, (err: BusinessError, data: http.HttpResponse) => {
             if (!err) {
